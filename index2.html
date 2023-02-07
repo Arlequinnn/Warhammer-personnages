@@ -1,0 +1,79 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <script src="js/jquery.min.js"></script>
+      <style> 
+      #card { 
+        width: 800px;
+        height: 1200px; 
+        background-image: url("front.jpg"); 
+        background-repeat: no-repeat; 
+        background-position: center; 
+        background-size: contain;
+        margin: 0 auto; 
+      } 
+      #flip-button { 
+        position: absolute; 
+        left: 20px; 
+        top: 50%; 
+        padding: 40px 80px;
+        transform: translateY(-50%); 
+        font-size: xx-large;
+      } 
+      #download-button{ 
+        position: absolute; 
+        left: 1550px; 
+        top: 50%; 
+        padding: 40px 80px;
+        transform: translateY(-50%); 
+        font-size: xx-large;
+      } 
+    </style> 
+  </head> 
+  <body> 
+    <div id="card"></div> 
+    <button id="flip-button">Flip</button> 
+    <div id="download-button"><a  href="javascript:void(0)" class="btn-download">Download PDF  </a></div>
+    <script src="js/jspdf.debug.js"></script>
+    <script src="js/html2canvas.min.js"></script>
+    <script src="js/html2pdf.min.js"></script>
+    <script> 
+    const card = document.querySelector("#card"); 
+    const flipButton = document.querySelector("#flip-button"); 
+    let front = true; 
+    flipButton.addEventListener("click", function() { 
+      if (front) { 
+        card.style.backgroundImage = "url('back.jpg')"; 
+      } else { 
+        card.style.backgroundImage = "url('front.jpg')"; 
+      } 
+      front = !front; 
+    }); 
+    </script> 
+    <script>
+      const options = {
+        margin: 0.5,
+        filename: 'invoice.pdf',
+        image: { 
+          type: 'jpeg', 
+          quality: 500
+        },
+        html2canvas: { 
+          scale: 1 
+        },
+        jsPDF: { 
+          unit: 'in', 
+          format: 'letter', 
+          orientation: 'portrait' 
+        }
+      }
+      
+      $('.btn-download').click(function(e){
+        e.preventDefault();
+        const element = document.getElementById('invoice');
+        html2pdf().from(element).set(options).save();
+      });
+     
+      </script>
+   </body>  
+</html> 
